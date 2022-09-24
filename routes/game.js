@@ -4,7 +4,11 @@ const router = express.Router();
 // Parses url-encoded bodies
 router.use(express.urlencoded({ extended: false }));
 
-const { db, Games, Players } = require('../server');
+// Get Models
+const { Games, Players } = require('../server');
+
+// Get Views
+const gameDetails = require('../views/gameDetails');
 
 // GET /game/:gameId
 // Returns the winner for the game matching the given ID,
@@ -17,11 +21,8 @@ router.get('/:gameId', async (req, res, next) => {
 		// Get playerInstance gameInstance's playerId
 		const playerId = gameInstance.playerId;
 		const playerInstance = await Players.findByPk(playerId);
-		res.send(`
-		<p>
-			For Game ${gameId}, which ${playerInstance.username} played,
-			${gameInstance.result} was the winner.
-		</p>`);
+
+		res.send(gameDetails(gameInstance, playerInstance));
 	} catch (error) {
 		next(error);
 	}

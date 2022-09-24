@@ -1,0 +1,13 @@
+body {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: yellow;
+}
+
+.player-card {
+	border: 1px solid black;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
