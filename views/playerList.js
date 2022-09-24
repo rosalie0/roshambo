@@ -10,13 +10,17 @@ module.exports = (players) => `
 	</head>
 	<body>
   <h1> List of all players </h1>
-    ${players.map(
-			(player) => `
-    <div class="player-card">
-      <h4>${player.username}</h4>
-      <p>ID: ${player.id}</p>
-    </div>`
-		)}
+  <div class="player-card-container">
+    ${players
+			.map(
+				(player) => `
+      <div class="player-card">
+        <h4>${player.username}</h4>
+        <p>ID: ${player.id}</p>
+      </div>`
+			)
+			.join('')}
+    </div>
   </body>
 </html>
 `;

@@ -1,7 +1,9 @@
 const { db, Games, Players } = require('./server');
 
+//          SCHEMA:
 // Players has:  id, username
 // Games has: id, result, playerId
+
 const seedDb = async () => {
 	await db.sync({ force: true, logging: false }); // Drops tables
 
@@ -17,11 +19,6 @@ const seedDb = async () => {
 	const charlie = await Players.create({
 		username: 'charlie',
 	});
-
-	// const firstGame = await Games.create({
-	// 	result: 'tie',
-	// 	playerId: 1,
-	// });
 
 	const games = [
 		{ result: 'computer', playerId: alice.id },
