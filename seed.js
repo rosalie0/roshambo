@@ -1,5 +1,7 @@
 const { db, Games, Players } = require('./server');
 
+// Players has:  id, username
+// Games has: id, result, playerId
 const seedDb = async () => {
 	await db.sync({ force: true, logging: false }); // Drops tables
 

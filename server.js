@@ -13,7 +13,17 @@ const Games = db.define('games', {
 // Player table has...
 // 'Username', which is a string representing a player's name
 const Players = db.define('players', {
-	username: Sequelize.STRING,
+	username: {
+		type: Sequelize.STRING,
+		allowNull: false,
+		get() {
+			// Capitalize first letter
+			const n = this.getDataValue('username');
+			const firstLetter = n[0].toUpperCase();
+			const restOfN = n.slice(1);
+			return firstLetter + restOfN;
+		},
+	},
 });
 
 // Associate tables
