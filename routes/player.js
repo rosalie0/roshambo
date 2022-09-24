@@ -35,18 +35,6 @@ router.put('/:playerId', async (req, res, next) => {
 	}
 });
 
-// GET /player
-// Return a list of all players
-router.get('/', async (req, res, next) => {
-	try {
-		const players = await Players.findAll();
-
-		res.send(playerList(players));
-	} catch (err) {
-		next(err);
-	}
-});
-
 // GET /player/:playerId
 // Returns a specific player, along with their games played.
 router.get('/:playerId', async (req, res, next) => {
@@ -62,6 +50,20 @@ router.get('/:playerId', async (req, res, next) => {
 
 		res.send(playerDetails(player, gamesPlayed));
 		// res.send(`Info of ${player.username} who has played these games ${gamesPlayed}`);
+	} catch (err) {
+		next(err);
+	}
+});
+
+// GET /player
+// Return a list of all players
+router.get('/', async (req, res, next) => {
+	try {
+		const players = await Players.findAll();
+
+		// Sort players array so that ID 1 is first.
+		players.sort((a, b) => a.id - b.id);
+		res.send(playerList(players));
 	} catch (err) {
 		next(err);
 	}
