@@ -16,6 +16,7 @@ const Players = db.define('players', {
 	username: {
 		type: Sequelize.STRING,
 		allowNull: false,
+		unique: true,
 		get() {
 			// Capitalize first letter
 			const n = this.getDataValue('username');

@@ -17,5 +17,8 @@
 		"pg": "^8.8.0",
 		"sequelize": "^6.23.1",
 		"volleyball": "^1.5.1"
+	},
+	"devDependencies": {
+		"eslint": "^8.24.0"
 	}
 }
