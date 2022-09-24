@@ -9,7 +9,31 @@ const playerDetails = require('../views/playerDetails');
 const playerList = require('../views/playerList');
 
 // Import tables
-const { db, Games, Players } = require('../server');
+const { Games, Players } = require('../server');
+
+// *********** ROUTE HANDLING *********** //
+
+// PUT /player/:playerId
+// Updates a players name to be the given name.
+// 		The request's body contains:
+//		- username: string representing a username
+router.put('/:playerId', async (req, res, next) => {
+	try {
+		const newUsername = req.body.username;
+
+		// Get the player of playerId
+		const player = await Players.findByPk(+req.params.playerId);
+		// Update player with newUsername
+		await player.update({
+			username: newUsername,
+		});
+		res.send(
+			`Successfully updated player ${player.id}'s username to ${player.username}`
+		);
+	} catch (err) {
+		next(err);
+	}
+});
 
 // GET /player
 // Return a list of all players
