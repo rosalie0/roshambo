@@ -9,6 +9,8 @@ const { Games, Players } = require('../server');
 
 // Import Views
 const gameDetails = require('../views/gameDetails');
+const gameForm = require('../views/gameForm');
+const gameResults = require('../views/gameResults');
 
 // USED FOR EXTRA CREDIT:
 // Import functions used for solving roshambo games
@@ -34,7 +36,7 @@ router.get('/:gameId', async (req, res, next) => {
 
 router.get('/', async (req, res, next) => {
 	try {
-		res.send('printing random moves');
+		res.send(gameForm());
 	} catch (err) {
 		next(err);
 	}
@@ -48,17 +50,27 @@ router.post('/', async (req, res, next) => {
 		const playerMove = req.body.symbol;
 		const playerId = +req.body.playerId;
 
+		// Error check playerId
+		if (isNaN(playerId) || playerId % 1 !== 0 || playerId < 1) {
+			res.send('Please enter an whole NUMBER for PlayerId.');
+		}
 		// Get player instance from Model
 		const player = await Players.findByPk(playerId);
-		let msg = `${player.username} plays ${playerMove}!\n`;
+
+		if (!player) {
+			res.send(`Sorry, Unable to find a player with the ID number ${playerId}`);
+		}
+
+		const gameLog = []; // An array of strings that describe the actions of the game.
+		gameLog.push(`${player.username} plays ${playerMove}!`);
 
 		//Pick a random symbol using javascript for the computer
 		const computerMove = randomMove();
-		msg += `Computer plays ${computerMove}!\n`;
+		gameLog.push(`Computer plays ${computerMove}!`);
 
 		// Calculate who wins
 		const gameResult = calculateWinner(playerMove, computerMove);
-		msg += `The winner is... ${gameResult}!\n`;
+		gameLog.push(`The winner is... ${gameResult}!`);
 
 		// Create a game with the resulting winner
 		const game = await Games.create({
@@ -66,8 +78,8 @@ router.post('/', async (req, res, next) => {
 			playerId: playerId,
 		});
 
-		msg += `Game instance created: \n${game}\n`;
-		res.send(msg);
+		gameLog.push(`Game instance created & stored in the database.`);
+		res.send(gameResults(gameLog));
 	} catch (err) {
 		next(err);
 	}

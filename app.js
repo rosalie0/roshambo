@@ -1,16 +1,20 @@
 const express = require('express');
-const volleyball = require('volleyball');
 const app = express();
+
+// Volleyball middleware
+const volleyball = require('volleyball');
+app.use(volleyball);
 
 // Define routes
 app.use('/game', require('./routes/game'));
 app.use('/player', require('./routes/player'));
 
-app.use(volleyball);
+// Public
+// eslint-disable-next-line no-undef
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
-	const html = `try going to <a href="/game"> /Game </a> or <a href="/Player"> Player </a>`;
+	const html = `try going to <a href="/game"> /Game </a> or <a href="/Player"> /Player </a>`;
 	res.send(html);
 });
 
