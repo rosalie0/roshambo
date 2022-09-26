@@ -10,6 +10,10 @@ module.exports = (player, games) => `
 	</head>
 	<body>
     <h1> ${player.username} Details </h1>
+		<ul>
+		<li> Full Name: ${player.fullName}</li>
+		<li> DOB: ${player.dob}</li>
+		</ul>
     <h3> Below are the games that ${player.username} has played: </h3>
     <div class="game-card-container">
       ${games

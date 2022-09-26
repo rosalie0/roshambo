@@ -1,6 +1,24 @@
 const Sequelize = require('sequelize');
 const db = new Sequelize('postgres://localhost:5432/roshambo');
 
+const monthInEnglish = (n) => {
+	const englishMonths = [
+		'January',
+		'February',
+		'March',
+		'April',
+		'May',
+		'June',
+		'July',
+		'August',
+		'September',
+		'October',
+		'November',
+		'December',
+	];
+	return englishMonths[n - 1];
+};
+
 // Games table has...
 // 'Result', which must be ither "computer", "human", or "tie"
 const Games = db.define('games', {
@@ -11,7 +29,6 @@ const Games = db.define('games', {
 });
 
 // Player table has...
-// 'Username', which is a string representing a player's name
 const Players = db.define('players', {
 	username: {
 		type: Sequelize.STRING,
@@ -25,10 +42,17 @@ const Players = db.define('players', {
 	fullName: {
 		type: Sequelize.VIRTUAL,
 		get() {
-			const f = this.getDataValue('firstName');
-			const m = this.getDataValue('middleName');
-			const l = this.getDataValue('lastName');
-			return `${f} ${m} ${l}`;
+			let f = this.getDataValue('firstName');
+			let m = this.getDataValue('middleName');
+			let l = this.getDataValue('lastName');
+
+			f = f[0].toUpperCase() + f.slice(1);
+			l = l[0].toUpperCase() + l.slice(1);
+
+			if (m) {
+				m = m[0].toUpperCase() + m.slice(1);
+				return `${f} ${m} ${l}`;
+			} else return `${f} ${l}`;
 		},
 	},
 
@@ -77,6 +101,23 @@ const Players = db.define('players', {
 			const firstLetter = n[0].toUpperCase();
 			const restOfN = n.slice(1);
 			return firstLetter + restOfN;
+		},
+	},
+
+	joinDate: {
+		type: Sequelize.DATE,
+		defaultValue: Sequelize.NOW,
+	},
+
+	dob: {
+		type: Sequelize.DATEONLY,
+		get() {
+			// Original format is YYYY-MM-DD
+			const [year, month, day] = this.getDataValue('dob').split('-');
+			const enMonth = monthInEnglish(parseInt(month));
+
+			const sentence = `${enMonth} ${day}, ${year}`;
+			return sentence;
 		},
 	},
 });

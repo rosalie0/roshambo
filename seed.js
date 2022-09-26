@@ -1,7 +1,10 @@
 const { db, Games, Players } = require('./server');
 
 //          SCHEMA:
-// Players has:  id, username
+// Players has:  id, username (unique),
+//							 firstName, middleName (optional), lastName,
+//							 fullName (virtual),
+//							 DOB, Date of account creation
 // Games has: id, result, playerId
 
 const seedDb = async () => {
@@ -11,8 +14,8 @@ const seedDb = async () => {
 	const alice = await Players.create({
 		username: 'aliceAbbot',
 		firstName: 'alice',
-		middleName: 'temp',
 		lastName: 'abbot',
+		dob: '2001-01-11',
 	});
 
 	const bob = await Players.create({
@@ -20,6 +23,7 @@ const seedDb = async () => {
 		firstName: 'BOB',
 		middleName: 'BOOKER',
 		lastName: 'BROWN',
+		dob: '2002-02-22',
 	});
 
 	const charlie = await Players.create({
@@ -27,6 +31,7 @@ const seedDb = async () => {
 		firstName: 'Charlie',
 		middleName: 'Carter',
 		lastName: 'Clark',
+		dob: '2003-12-03',
 	});
 
 	const games = [

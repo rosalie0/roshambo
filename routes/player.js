@@ -15,8 +15,6 @@ const { Games, Players } = require('../server');
 
 // PUT /player/:playerId
 // Updates a players name to be the given name.
-// 		The request's body contains:
-//		- username: string representing a username
 router.put('/:playerId', async (req, res, next) => {
 	try {
 		const newUsername = req.body.username;
