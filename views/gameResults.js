@@ -11,18 +11,21 @@ module.exports = (gameLog) => `
     <script>
       $(document).ready( function() {
         const messages = $("h5");
-        $(messages[0]).show(); // Show first move
+        $(messages[0]).show(); // Show human move
+        $(messages[1]).show(); // Show computer move
 
-        // Rest of messages are time delayed.
-        let counter = 1;
-        const messageInterval = setInterval(() => {
-          $(messages[counter]).show();
-          counter++;
-          if (counter > messages.length) {
-            console.log('Stopping interval');
-            clearInterval(messageInterval);
-          };
-        }, 1500);
+
+        setTimeout( () => {
+          $(messages[2]).show(); // Show 'winner is...'
+        }, 1000);
+        
+        setTimeout( () => {
+          $(messages[3]).show();
+          $(messages[3]).css("fontSize", "60px");
+          $(messages[3]).css("color", "red");
+
+          $(messages[4]).show();
+        }, 3000);
       })
     </script>
 	</head>

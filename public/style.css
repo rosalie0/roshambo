@@ -45,4 +45,6 @@ body {
 
 .game-result-messages {
 	display: none;
+
+	text-align: center;
 }

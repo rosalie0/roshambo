@@ -68,12 +68,14 @@ router.post('/', async (req, res, next) => {
 		const computerMove = randomMove();
 		gameLog.push(`Computer plays ${computerMove}!`);
 
+		gameLog.push(`The winner is...`);
+
 		// Calculate who wins
 		const gameResult = calculateWinner(playerMove, computerMove);
-		gameLog.push(`The winner is... ${gameResult}!`);
+		gameLog.push(`${gameResult.toUpperCase()}!`);
 
 		// Create a game with the resulting winner
-		const game = await Games.create({
+		await Games.create({
 			result: gameResult,
 			playerId: playerId,
 		});
