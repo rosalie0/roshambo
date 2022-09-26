@@ -18,8 +18,62 @@ const Players = db.define('players', {
 		allowNull: false,
 		unique: true,
 		get() {
+			return '@' + this.getDataValue('username');
+		},
+	},
+
+	fullName: {
+		type: Sequelize.VIRTUAL,
+		get() {
+			const f = this.getDataValue('firstName');
+			const m = this.getDataValue('middleName');
+			const l = this.getDataValue('lastName');
+			return `${f} ${m} ${l}`;
+		},
+	},
+
+	firstName: {
+		type: Sequelize.STRING,
+		allowNull: false,
+		set(value) {
+			const noCasing = value.toLowerCase();
+			this.setDataValue('firstName', noCasing);
+		},
+		get() {
 			// Capitalize first letter
-			const n = this.getDataValue('username');
+			const n = this.getDataValue('firstName');
+			const firstLetter = n[0].toUpperCase();
+			const restOfN = n.slice(1);
+			return firstLetter + restOfN;
+		},
+	},
+
+	middleName: {
+		type: Sequelize.STRING,
+		allowNull: true,
+		set(value) {
+			const noCasing = value.toLowerCase();
+			this.setDataValue('middleName', noCasing);
+		},
+		get() {
+			// Capitalize first letter
+			const n = this.getDataValue('middleName');
+			const firstLetter = n[0].toUpperCase();
+			const restOfN = n.slice(1);
+			return firstLetter + restOfN;
+		},
+	},
+
+	lastName: {
+		type: Sequelize.STRING,
+		allowNull: false,
+		set(value) {
+			const noCasing = value.toLowerCase();
+			this.setDataValue('lastName', noCasing);
+		},
+		get() {
+			// Capitalize first letter
+			const n = this.getDataValue('lastName');
 			const firstLetter = n[0].toUpperCase();
 			const restOfN = n.slice(1);
 			return firstLetter + restOfN;

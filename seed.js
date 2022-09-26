@@ -9,15 +9,24 @@ const seedDb = async () => {
 
 	// Insert data into tables!
 	const alice = await Players.create({
-		username: 'alice',
+		username: 'aliceAbbot',
+		firstName: 'alice',
+		middleName: 'temp',
+		lastName: 'abbot',
 	});
 
 	const bob = await Players.create({
-		username: 'bob',
+		username: 'n00bslayer',
+		firstName: 'BOB',
+		middleName: 'BOOKER',
+		lastName: 'BROWN',
 	});
 
 	const charlie = await Players.create({
-		username: 'charlie',
+		username: 'n00b',
+		firstName: 'Charlie',
+		middleName: 'Carter',
+		lastName: 'Clark',
 	});
 
 	const games = [
